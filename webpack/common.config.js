@@ -1,6 +1,4 @@
 const path = require('path')
-const autoprefixer = require('autoprefixer')
-const postcssImport = require('postcss-import')
 const merge = require('webpack-merge')
 
 const development = require('./dev.config')
@@ -28,7 +26,7 @@ const common = {
     },
 
     resolve: {
-        extensions: ['', '.jsx', '.js', '.json', '.scss'],
+        extensions: ['', '.jsx', '.js', '.json', '.scss', '.css'],
         modulesDirectories: ['node_modules', PATHS.app]
     },
 
@@ -65,17 +63,6 @@ const common = {
             test: /\.jpg$/,
             loader: 'file?name=[name].[ext]',
         }],
-
-        postcss: webpack => {
-            return [
-                autoprefixer({
-                    browsers: ['last 2 versions']
-                }),
-                postcssImport({
-                    addDependencyTo: webpack
-                })
-            ]
-        }
     }
 }
 

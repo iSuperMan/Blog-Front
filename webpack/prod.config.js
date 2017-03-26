@@ -15,8 +15,17 @@ module.exports = {
 
     module: {
         loaders: [{
-            test: /\.scss$/,
-            loader: 'style!css!postcss-loader!sass',
+            test: /\.css$/,
+            // TODO fix production configuration
+            // loader: ExtractTextPlugin.extract({
+            //     fallback: 'style?sourceMap',
+            //     use: 'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]!postcss'
+            // })
+            loaders: [
+                'style?sourceMap',
+                'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+                'postcss'
+            ]
         }],
     },
 
@@ -27,7 +36,7 @@ module.exports = {
             },
             __DEVELOPMENT__: false,
         }),
-        new ExtractTextPlugin('bundle.css'),
+        new ExtractTextPlugin('bundle.css', { allChunks: true }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
