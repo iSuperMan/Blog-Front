@@ -1,11 +1,11 @@
 {
-  "presets": ["latest", "stage-2", "stage-3", "react"],
-  "plugins": [
-    "add-module-exports"
+  "presets": [
+    ["env", {"modules": false}],
+    "stage-2",
+    "stage-3",
+    "react"
   ],
-  "env": {
-    "start": {
-      "presets": ["react-hmre"]
-    }
-  }
+  "plugins": [
+    "react-hot-loader/babel"
+  ]
 }
