@@ -1,0 +1,9 @@
+.toggleForm {
+  text-align: center;
+  margin-top: 15px;
+
+  a {
+    color: #757575;
+    font-size: 15px
+  }
+}

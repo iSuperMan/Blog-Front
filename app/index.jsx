@@ -10,7 +10,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import configureStore from './configureStore';
-import App from './components/App';
+import App from './containers/App';
 import './assets/global.css';
 
 injectTapEventPlugin();
@@ -36,7 +36,7 @@ const render = (Component) => {
 render(App);
 
 if (module.hot) {
-	module.hot.accept('./components/App', () => {
+	module.hot.accept('./containers/App', () => {
 		render(App);
 	});
 }

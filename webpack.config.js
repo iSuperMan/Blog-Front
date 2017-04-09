@@ -33,6 +33,7 @@ module.exports = merge(commonConfig, {
 						},
 					},
 					'postcss-loader',
+					'sass-loader',
 				],
 			},
 		],

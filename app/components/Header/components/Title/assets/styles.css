@@ -1,0 +1,26 @@
+.title {
+  color: #424242;
+
+  x-title {
+    display: inline-block;
+    width: 30%;
+    font-family: 'Lobster';
+    font-size: 32px;
+  }
+
+  x-user-info {
+    display: inline-block;
+  	width: 68%;
+  	font-size: 15px;
+  	text-align: right;
+
+    x-user-icon {
+      margin-right: 10px;
+    }
+
+    x-user-name {
+      position: relative;
+      bottom: 5px;
+    }
+  }
+}

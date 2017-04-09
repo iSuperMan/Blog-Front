@@ -28,6 +28,7 @@ module.exports = merge(commonConfig, {
 						},
 						'resolve-url-loader',
 						'postcss-loader',
+						'sass-loader',
 					],
 				}),
 			},
