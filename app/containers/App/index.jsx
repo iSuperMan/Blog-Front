@@ -4,7 +4,8 @@ import { Switch, Route } from 'react-router';
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
 import Home from '../../components/Home';
-import Profile from '../../components/Profile';
+import ProfileOld from '../../components/Profile';
+import Profile from '../../scenes/Profile';
 import Layout from '../Layout';
 import EntryDialog from '../EntryDialog';
 import AuthenticatedComponent from '../AuthenticatedComponent';
@@ -23,7 +24,8 @@ const App = (props: AppProps) => {
 			<Layout>
 				<Switch>
 					<Route exact path="/" component={Home} />
-					<Route path="/profile" component={AuthenticatedComponent(Profile)} />
+					<Route path="/profile" component={AuthenticatedComponent(ProfileOld)} />
+					<Route path="/@:username" component={Profile} />
 				</Switch>
 
 				<EntryDialog />

@@ -9,6 +9,7 @@ import type { User } from '../../services/entities/user';
 
 type HeaderProps = {
 	user: ?User,
+	shadow: boolean,
   signOutClickHanlder: () => void,
   signInClickHandler: () => void,
 	history: {
@@ -19,6 +20,7 @@ type HeaderProps = {
 const Header = (props: HeaderProps) => <AppBar
   title={<Title user={props.user} />}
   style={{ backgroundColor: 'white' }}
+	zDepth={props.shadow ? 1 : 0}
 
   iconElementRight={
     props.user
