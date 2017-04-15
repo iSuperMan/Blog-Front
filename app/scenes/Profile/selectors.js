@@ -6,6 +6,7 @@ import { userSchema } from '../../services/entities/user';
 
 export const getEditMode = createSelector(getProfileScene, scene => _.get(scene, 'editMode', false));
 export const getIsUserFetching = createSelector(getProfileScene, scene => _.get(scene, 'user.isFetching', false));
+export const getAvatarPicker = createSelector(getProfileScene, scene => _.get(scene, 'avatarPicker', {}));
 
 export const getUser = createSelector(
   [getProfileScene, getEntities],

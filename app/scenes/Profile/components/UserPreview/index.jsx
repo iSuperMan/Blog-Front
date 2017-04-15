@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import PersonIcon from 'material-ui/svg-icons/social/person';
+import _ from 'lodash';
 import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
@@ -45,7 +45,7 @@ const UserPreview = ({
 
     <div className="col-sm-3">
       <x-avatar>
-        <Avatar icon={<PersonIcon />} size={100} />
+        <Avatar src={_.get(user, 'avatar.path')} size={100} />
       </x-avatar>
     </div>
   </div>

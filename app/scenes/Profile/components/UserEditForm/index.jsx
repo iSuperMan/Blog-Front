@@ -1,11 +1,10 @@
 // @flow
 import _ from 'lodash';
 import React from 'react';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import FlatButton from 'material-ui/FlatButton';
-import PersonIcon from 'material-ui/svg-icons/social/person';
-import Avatar from 'material-ui/Avatar';
 import { compose, withProps } from 'recompose';
+import AvatarPicker from '../../containers/AvatarPicker';
 import InputField from '../../../../components/InputField';
 import UserStatistic from '../UserStatistic';
 import { isRequired } from '../../../../services/validators';
@@ -72,7 +71,7 @@ const UserEditForm = (props: UserEditFormProps) => (
 
 				<div className="col-sm-3">
 					<x-avatar>
-						<Avatar icon={<PersonIcon />} size={100} />
+						<Field name="avatar" component={AvatarPicker} />
 					</x-avatar>
 				</div>
 			</div>
@@ -81,8 +80,11 @@ const UserEditForm = (props: UserEditFormProps) => (
 );
 
 export default compose(
-	withProps(props => ({
-		initialValues: _.pick(props.user, ['fullName', 'bio', 'avatar']),
+	withProps(({ user }) => ({
+		initialValues: {
+			..._.pick(user, ['fullName', 'bio']),
+			avatar: _.get(user, 'avatar._id'),
+		},
 	})),
 
 	reduxForm({

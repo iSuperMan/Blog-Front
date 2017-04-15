@@ -7,4 +7,6 @@ export default {
 	AVAILABLE_EMAIL_API: '/api/users/available-email',
 	GET_USER_BY_USERNAME_API: '/api/users/by-username/:username',
 	USER_API: '/api/users/:userId',
+
+	IMAGES_API: '/api/images',
 };
