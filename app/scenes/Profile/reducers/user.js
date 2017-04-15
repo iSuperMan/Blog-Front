@@ -15,6 +15,7 @@ export default handleActions({
 			isFetching: true,
 		};
 	},
+
 	[users.types.GET_USER_BY_USERNAME_SUCCESS]: (state, action) => {
 		if (!isMetaMatch(action)) {
 			return state;
@@ -26,6 +27,7 @@ export default handleActions({
 			isFetching: false,
 		};
 	},
+
 	[users.types.GET_USER_BY_USERNAME_FAILURE]: (state, action) => {
 		if (!isMetaMatch(action)) {
 			return state;

@@ -5,6 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import styles from './assets/styles.css';
+import UserStatistic from '../UserStatistic';
 import type { User } from '../../../../services/entities/user';
 
 type UserPreviewProps = {
@@ -25,17 +26,7 @@ const UserPreview = ({
         <x-description>{user.bio}</x-description>
       </x-main-info>
 
-      <x-stat-info>
-        <x-amount-group>
-          <x-amount-value>938</x-amount-value>
-          <x-amount-title>Following</x-amount-title>
-        </x-amount-group>
-
-        <x-amount-group>
-          <x-amount-value>29</x-amount-value>
-          <x-amount-title>Followers</x-amount-title>
-        </x-amount-group>
-      </x-stat-info>
+      <UserStatistic followersAmount={29} followingAmount={938} />
 
       <x-user-actions>
         {

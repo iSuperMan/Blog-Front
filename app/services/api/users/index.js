@@ -3,6 +3,7 @@ import { CALL_API, getJSON } from 'redux-api-middleware';
 import { normalize } from 'normalizr';
 import { userSchema } from '../../entities/user';
 import endpoints from '../endpoints';
+import { token } from '../../helpers';
 
 export const types = keyMirror({
 	AVAILABLE_USERNAME_REQUEST: null,
@@ -16,9 +17,47 @@ export const types = keyMirror({
 	GET_USER_BY_USERNAME_REQUEST: null,
 	GET_USER_BY_USERNAME_SUCCESS: null,
 	GET_USER_BY_USERNAME_FAILURE: null,
+
+	UPDATE_USER_REQUEST: null,
+	UPDATE_USER_SUCCESS: null,
+	UPDATE_USER_FAILURE: null,
 });
 
 export const actions = {
+	updateUser: ({ userId, data }) => ({
+		[CALL_API]: {
+			endpoint: endpoints.USER_API.replace(':userId', userId),
+			method: 'PUT',
+			body: JSON.stringify(data),
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+
+			types: [
+				types.UPDATE_USER_REQUEST,
+
+				{
+					type: types.UPDATE_USER_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.user
+								? normalize(response.user, userSchema)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.UPDATE_USER_FAILURE,
+			],
+		},
+	}),
+
 	fetchUserByUsername: (username, { source }) => ({
 		[CALL_API]: {
 			endpoint: endpoints.GET_USER_BY_USERNAME_API.replace(':username', username),

@@ -1,0 +1,14 @@
+.userEditForm {
+  padding: 35px 0;
+  min-height: 200px;
+
+  x-avatar {
+    display: block;
+    float: right;
+  }
+
+  x-user-actions {
+    display: block;
+    margin-top: 20px;
+  }
+}

@@ -37,17 +37,12 @@ type RenderComponentProps = {
 const InputField = (props: InputFieldProps) => <Field
 	{...props}
 
-	component={({
-		floatingLabelText, fullWidth, type,
-		hintText, meta, input, disabled,
-	}: RenderComponentProps) => <TextField
-		{...input}
-		fullWidth={fullWidth}
-		hintText={hintText}
-		disabled={disabled}
-		floatingLabelText={floatingLabelText}
-		type={type}
-		errorText={meta.touched && meta.error}
+	component={(renderProps: RenderComponentProps) => <TextField
+		{..._.omit(renderProps, ['meta', 'input'])}
+		{...renderProps.input}
+		disabled={renderProps.disabled}
+		type={renderProps.type}
+		errorText={renderProps.meta.touched && renderProps.meta.error}
 	/>}
 />;
 
@@ -60,6 +55,7 @@ export default compose(
 		hintText: null,
 		fullWidth: false,
 		disabled: false,
+		validate: [],
 	}),
 
 	lifecycle({

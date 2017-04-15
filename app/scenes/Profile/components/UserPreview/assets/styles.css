@@ -27,33 +27,4 @@
     display: block;
     margin-top: 20px;
   }
-
-  x-stat-info {
-    margin-top: 30px;
-    display: block;
-
-    x-amount-group {
-      display: inline-block;
-      color: #757575;
-
-      x-amount-value {
-        display: inline-block;
-        margin-right: 5px;
-        font-weight: bold;
-      }
-
-      x-amount-title {
-        display: inline-block;
-      }
-
-      &::after {
-        content: '·';
-        margin: 0 14px;
-      }
-
-      &:last-child::after {
-        content: '';
-      }
-    }
-  }
 }
