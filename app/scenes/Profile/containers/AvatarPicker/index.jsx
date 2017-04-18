@@ -7,7 +7,7 @@ import { denormalize } from 'normalizr';
 import CameraIcon from 'material-ui/svg-icons/image/photo-camera';
 import Avatar from 'material-ui/Avatar';
 import CircularProgress from 'material-ui/CircularProgress';
-import { compose, withHandlers, withProps } from 'recompose';
+import { compose, withHandlers, withProps, defaultProps } from 'recompose';
 import { images } from '../../../../services/api';
 import * as actions from './actions';
 import reducers from './reducers';
@@ -21,6 +21,7 @@ type AvatarPickerType = {
 	inputChangeHandler: () => void,
 	loader: boolean,
 	image: Image | null,
+	size?: number,
 }
 
 const AvatarPicker = (props: AvatarPickerType) => <div>
@@ -31,28 +32,32 @@ const AvatarPicker = (props: AvatarPickerType) => <div>
     style={{ display: 'none' }}
   />
 
-  <div style={{ position: 'relative', width: 100 }}>
+  <div style={{ position: 'relative', width: props.size }}>
     <Avatar
-      size={100}
+      size={props.size}
 			src={props.image && props.image.path}
       style={{ position: 'absolute' }}
     />
 
 		<Avatar
 			icon={<CameraIcon />}
-			size={100}
+			size={props.size}
 			color="rgba(250, 250, 250, 0.8)"
 			style={{ backgroundColor: 'rgba(0, 0, 0, 0.25)', position: 'absolute', cursor: 'pointer' }}
 			onClick={() => $('#avatar-upload-input').click()}
 		/>
 
-    {props.loader && <CircularProgress size={100} thickness={5} style={{ position: 'absolute' }} />}
+    {props.loader && <CircularProgress size={props.size} thickness={5} style={{ position: 'absolute' }} />}
   </div>
 </div>;
 
 export { reducers, actions, selectors };
 
 export default compose(
+	defaultProps({
+		size: 150,
+	}),
+
 	connect(
 		state => ({
 			loader: selectors.getLoader(state),

@@ -45,7 +45,7 @@ const UserPreview = ({
 
     <div className="col-sm-3">
       <x-avatar>
-        <Avatar src={_.get(user, 'avatar.path')} size={100} />
+        <Avatar src={_.get(user, 'avatar.path')} size={130} />
       </x-avatar>
     </div>
   </div>

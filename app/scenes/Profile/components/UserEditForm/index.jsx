@@ -71,7 +71,7 @@ const UserEditForm = (props: UserEditFormProps) => (
 
 				<div className="col-sm-3">
 					<x-avatar>
-						<Field name="avatar" component={AvatarPicker} />
+						<Field name="avatar" component={AvatarPicker} size={130} />
 					</x-avatar>
 				</div>
 			</div>
