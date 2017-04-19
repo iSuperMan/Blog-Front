@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import 'froala-editor/js/froala_editor.pkgd.min';
 import configureStore from './configureStore';
 import App from './containers/App';
 import './assets/global.css';

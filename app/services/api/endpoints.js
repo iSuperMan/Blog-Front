@@ -9,4 +9,7 @@ export default {
 	USER_API: '/api/users/:userId',
 
 	IMAGES_API: '/api/images',
+
+	STORIES_API: '/api/stories',
+	STORY_API: '/api/stories/:storyId',
 };

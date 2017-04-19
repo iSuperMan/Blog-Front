@@ -8,6 +8,7 @@ import ProfileOld from '../../components/Profile';
 import Profile from '../../scenes/Profile';
 import Layout from '../Layout';
 import EntryDialog from '../EntryDialog';
+import StoryEditor from '../../scenes/StoryEditor';
 import AuthenticatedComponent from '../AuthenticatedComponent';
 import { auth as authAPI } from '../../services/api';
 import { actions as authActions, selectors as authSelectors } from '../../services/auth';
@@ -24,6 +25,8 @@ const App = (props: AppProps) => {
 			<Layout>
 				<Switch>
 					<Route exact path="/" component={Home} />
+					<Route exact path="/new-story" component={StoryEditor} />
+					<Route path="/p/:storyId" component={StoryEditor} />
 					<Route path="/profile" component={AuthenticatedComponent(ProfileOld)} />
 					<Route path="/@:username" component={Profile} />
 				</Switch>

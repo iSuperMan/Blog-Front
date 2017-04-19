@@ -6,6 +6,7 @@ import { entities } from './services/reducers';
 import { reducers as auth } from './services/auth';
 import { reducers as ui } from './services/ui';
 import { reducers as profileScene } from './scenes/Profile';
+import { reducers as storyEditorScene } from './scenes/StoryEditor';
 
 const reducers = combineReducers({
 	auth,
@@ -15,6 +16,7 @@ const reducers = combineReducers({
 	router,
 	ui,
 	profileScene,
+	storyEditorScene,
 });
 
 export default reducers;

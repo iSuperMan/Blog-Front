@@ -46,6 +46,12 @@ module.exports = merge(commonConfig, {
 			},
 			__DEVELOPMENT__: true,
 		}),
+
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+		}),
+
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),
