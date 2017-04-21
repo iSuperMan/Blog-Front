@@ -10,7 +10,7 @@ import { users as usersAPI } from '../../services/api';
 
 type ProfileProps = {
 	isUserFetching: boolean,
-	user: User,
+	user: User | null,
 };
 
 const Profile = (props: ProfileProps) => {
@@ -18,11 +18,7 @@ const Profile = (props: ProfileProps) => {
 		return null;
 	}
 
-	return (
-		<div>
-			<Details user={props.user} />
-		</div>
-	);
+	return <Details user={props.user} />;
 };
 
 export { reducers };

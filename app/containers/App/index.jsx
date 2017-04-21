@@ -3,16 +3,16 @@ import React from 'react';
 import { Switch, Route } from 'react-router';
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
-import Home from '../../components/Home';
-import ProfileOld from '../../components/Profile';
-import Profile from '../../scenes/Profile';
 import Layout from '../Layout';
 import EntryDialog from '../EntryDialog';
-import StoryEditor from '../../scenes/StoryEditor';
 import AuthenticatedComponent from '../AuthenticatedComponent';
+import StoryEditor from '../../scenes/StoryEditor';
+import Profile from '../../scenes/Profile';
 import { auth as authAPI } from '../../services/api';
 import { actions as authActions, selectors as authSelectors } from '../../services/auth';
 import { token } from '../../services/helpers';
+
+const AuthenticatedStoryEditor = AuthenticatedComponent(StoryEditor);
 
 type AppProps = {
 	isAuthFetching: boolean,
@@ -24,10 +24,9 @@ const App = (props: AppProps) => {
 		return (
 			<Layout>
 				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route exact path="/new-story" component={StoryEditor} />
-					<Route path="/p/:storyId" component={StoryEditor} />
-					<Route path="/profile" component={AuthenticatedComponent(ProfileOld)} />
+					<Route exact path="/" render={() => <div>Home</div>} />
+					<Route exact path="/new-story" component={AuthenticatedStoryEditor} />
+					<Route path="/p/:storyId" component={AuthenticatedStoryEditor} />
 					<Route path="/@:username" component={Profile} />
 				</Switch>
 

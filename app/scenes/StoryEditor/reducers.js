@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import { stories as storiesAPI } from '../../services/api';
+import { types } from './actions';
 
 const getStoryFromAction = (state, action) => _.get(action, 'payload.result', null);
 
@@ -10,6 +11,7 @@ export default combineReducers({
 		[storiesAPI.types.GET_STORY_SUCCESS]: getStoryFromAction,
 		[storiesAPI.types.CREATE_STORY_SUCCESS]: getStoryFromAction,
 		[storiesAPI.types.UPDATE_STORY_SUCCESS]: getStoryFromAction,
+		[types.STORY_EDITOR_RESET]: () => null,
 	}, null),
 
 	isSaving: handleActions({

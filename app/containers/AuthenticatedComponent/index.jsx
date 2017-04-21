@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -8,12 +9,11 @@ import { selectors as authSelectors } from '../../services/auth';
 export default (ComposedComponent: any) => {
 	type AuthenticatedComponentProps = {
 		isAuthenticated: boolean,
-		children: any,
 	};
 
 	const AuthenticatedComponent = (props: AuthenticatedComponentProps) => (
 		props.isAuthenticated
-			? <ComposedComponent>{props.children}</ComposedComponent>
+			? <ComposedComponent {..._.omit(props, ['isAuthenticated'])} />
 			: null
 	);
 

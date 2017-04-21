@@ -8,12 +8,14 @@ import Menu from './components/Menu';
 import type { User } from '../../services/entities/user';
 
 type HeaderProps = {
-	user: ?User,
+	user: User | null,
 	shadow: boolean,
   signOutClickHanlder: () => void,
   signInClickHandler: () => void,
 	history: {
+		/* eslint-disable react/no-unused-prop-types */
 		push: (string) => void,
+		/* eslint-enable  react/no-unused-prop-types */
 	}
 };
 
@@ -27,7 +29,9 @@ const Header = (props: HeaderProps) => <AppBar
 
 		? <Menu
 			items={[
-				{ text: 'Profile', onClick: () => props.history.push('/profile') },
+				{ text: 'New Story', onClick: () => props.history.push('/new-story') },
+				{ text: 'Stories', onClick: () => props.history.push('/me/stories') },
+				{ text: 'Profile', onClick: () => props.history.push(`/@${props.user.username}`) },
 				{ text: 'Sign Out', onClick: () => props.signOutClickHanlder() },
 			]}
 		/>

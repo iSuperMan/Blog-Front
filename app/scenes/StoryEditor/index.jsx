@@ -2,8 +2,8 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers, lifecycle, withProps, withState } from 'recompose';
-import { getFormValues } from 'redux-form';
+import { compose, withHandlers, lifecycle, withProps } from 'recompose';
+import { getFormValues, initialize as initializeForm } from 'redux-form';
 import { withRouter } from 'react-router';
 import StoryForm from './components/StoryForm';
 import UserPreview from './components/UserPreview';
@@ -13,6 +13,7 @@ import type { Story } from '../../services/entities/story';
 import reducers from './reducers';
 import * as selectors from './selectors';
 import { stories as storiesAPI } from '../../services/api';
+import { resetStoryEditor } from './actions';
 
 type NewStoryProps = {
 	user: User,
@@ -20,7 +21,6 @@ type NewStoryProps = {
 	isFetching: boolean,
 	isSaving: boolean,
 	hasUnsavedChanges: boolean,
-	initialValues: {} | null,
 	match: {
 		params: {
 			storyId?: string,
@@ -29,7 +29,7 @@ type NewStoryProps = {
 };
 
 const StoryEditor = (props : NewStoryProps) => {
-	if (props.isFetching || (props.match.params.storyId && !props.story)) {
+	if (!props.story && (props.isFetching || props.match.params.storyId)) {
 		return null;
 	}
 
@@ -41,11 +41,11 @@ const StoryEditor = (props : NewStoryProps) => {
 			<div className="row">
 				<div className="col-sm-10 offset-sm-1">
 					<div className="row" style={{ marginBottom: 45 }}>
-						<div className="col-sm-4">
+						<div className="col-sm-10">
 							<UserPreview user={props.user} />
 						</div>
 
-						<div className="col-sm-8">
+						<div className="col-sm-2">
 							<div style={{ textAlign: 'right', color: '#616161', fontStyle: 'italic', fontSize: 14 }}>
 								{ props.isSaving && 'Saving ...' }
 								{ !props.isSaving && props.hasUnsavedChanges && 'Unsaved changes' }
@@ -54,7 +54,7 @@ const StoryEditor = (props : NewStoryProps) => {
 						</div>
 					</div>
 
-					<StoryForm initialValues={props.initialValues} />
+					<StoryForm />
 				</div>
 			</div>
 		</div>
@@ -77,18 +77,11 @@ export default compose(
 
 		{
 			createStory: storiesAPI.actions.createStory,
+			initializeForm,
 			updateStory: storiesAPI.actions.updateStory,
 			getStory: storiesAPI.actions.getStory,
+			resetStoryEditor,
 		},
-	),
-
-	withState(
-		'initialValues',
-		'setInitialValues',
-
-		/* eslint-disable no-confusing-arrow */
-		props => _.get(props, 'match.params.storyId', false) ? null : {},
-		/* eslint-enable no-confusing-arrow */
 	),
 
 	withProps(
@@ -101,7 +94,7 @@ export default compose(
 
 	withHandlers({
 		saveForm: props => () => {
-			if (props.formData && !props.isSaving && !props.isFetching) {
+			if (!_.isEmpty(props.formData) && !props.isSaving && !props.isFetching) {
 				const storyId = _.get(props, 'story._id');
 
 				if (!storyId) {
@@ -126,8 +119,17 @@ export default compose(
 		},
 
 		componentWillReceiveProps(nextProps) {
-			if (_.isNull(nextProps.initialValues) && nextProps.story) {
-				this.props.setInitialValues({ ..._.pick(nextProps.story, ['text', 'name']) });
+			if (_.isEmpty(this.props.formData) && !this.props.story && nextProps.story) {
+				this.props.initializeForm('story-form', { ..._.pick(nextProps.story, ['text', 'name']) });
+			}
+
+			if (!nextProps.match.params.storyId && this.props.match.params.storyId) {
+				this.props.initializeForm('story-form', {});
+				this.props.resetStoryEditor();
+			}
+
+			if (!this.props.match.params.storyId && nextProps.match.params.storyId) {
+				this.props.getStory(nextProps.match.params.storyId);
 			}
 		},
 
