@@ -46,9 +46,11 @@ const StoryEditor = (props : NewStoryProps) => {
 						</div>
 
 						<div className="col-sm-8">
-							{ props.isSaving && 'Saving ...' }
-							{ !props.isSaving && props.hasUnsavedChanges && 'Unsaved changes' }
-							{ !props.isSaving && !props.hasUnsavedChanges && props.story && 'Saved' }
+							<div style={{ textAlign: 'right', color: '#616161', fontStyle: 'italic', fontSize: 14 }}>
+								{ props.isSaving && 'Saving ...' }
+								{ !props.isSaving && props.hasUnsavedChanges && 'Unsaved changes' }
+								{ !props.isSaving && !props.hasUnsavedChanges && props.story && 'Saved' }
+							</div>
 						</div>
 					</div>
 
