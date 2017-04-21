@@ -17,6 +17,10 @@ export const types = keyMirror({
 	GET_STORY_REQUEST: null,
 	GET_STORY_SUCCESS: null,
 	GET_STORY_FAILURE: null,
+
+	PUBLISH_STORY_REQUEST: null,
+	PUBLISH_STORY_SUCCESS: null,
+	PUBLISH_STORY_FAILURE: null,
 });
 
 export const actions = {
@@ -84,6 +88,37 @@ export const actions = {
 				},
 
 				types.UPDATE_STORY_FAILURE,
+			],
+		},
+	}),
+
+	publishStory: storyId => ({
+		[CALL_API]: {
+			endpoint: endpoints.PUBLISH_STORY_API.replace(':storyId', storyId),
+			method: 'GET',
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+			},
+
+			types: [
+				types.PUBLISH_STORY_REQUEST,
+
+				{
+					type: types.PUBLISH_STORY_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.story
+								? normalize(response.story, storySchema)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.PUBLISH_STORY_FAILURE,
 			],
 		},
 	}),

@@ -12,4 +12,5 @@ export default {
 
 	STORIES_API: '/api/stories',
 	STORY_API: '/api/stories/:storyId',
+	PUBLISH_STORY_API: '/api/stories/:storyId/publish',
 };

@@ -4,7 +4,20 @@ export const storySchema = new schema.Entity('stories', {}, { idAttribute: '_id'
 export const arrayOfStorySchemas = new schema.Array(storySchema);
 
 export type Story = {
-  text: string,
-  name: string,
+  draftContent: {
+    text: string,
+    name: string,
+  },
+
+  publishContent?: {
+    text: string,
+    name: string,
+  },
+
+  lastEditedDate: string,
+  firstPublishedDate?: string,
+  lastPublishedDate?: string,
+  isPublished: boolean,
+  hasUnpublishedChanges?: boolean,
   _id: string,
 };

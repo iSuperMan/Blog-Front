@@ -2,9 +2,11 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers, lifecycle, withProps } from 'recompose';
+import { compose, withHandlers, lifecycle, withProps, withState } from 'recompose';
 import { getFormValues, initialize as initializeForm } from 'redux-form';
 import { withRouter } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
+import PublishConfirmDialog from './components/PublishConfirmDialog';
 import StoryForm from './components/StoryForm';
 import UserPreview from './components/UserPreview';
 import { selectors as authSelectors } from '../../services/auth';
@@ -21,6 +23,11 @@ type NewStoryProps = {
 	isFetching: boolean,
 	isSaving: boolean,
 	hasUnsavedChanges: boolean,
+	openPublishConfirmDialog: () => void,
+	closePublishConfirmDialog: () => void,
+	publishConfirmDialog: boolean,
+	publishStory: () => void,
+
 	match: {
 		params: {
 			storyId?: string,
@@ -45,16 +52,34 @@ const StoryEditor = (props : NewStoryProps) => {
 							<UserPreview user={props.user} />
 						</div>
 
-						<div className="col-sm-2">
-							<div style={{ textAlign: 'right', color: '#616161', fontStyle: 'italic', fontSize: 14 }}>
+						<div className="col-sm-2" style={{ textAlign: 'right' }}>
+							<div style={{ color: '#616161', fontStyle: 'italic', fontSize: 14 }}>
 								{ props.isSaving && 'Saving ...' }
 								{ !props.isSaving && props.hasUnsavedChanges && 'Unsaved changes' }
 								{ !props.isSaving && !props.hasUnsavedChanges && props.story && 'Saved' }
 							</div>
+
+							<RaisedButton
+								disabled={!props.story || (props.story
+									&& props.story.isPublished
+									&& !props.story.hasUnpublishedChanges)
+								}
+
+								label="Publish"
+								primary
+								style={{ marginTop: 10 }}
+								onTouchTap={props.openPublishConfirmDialog}
+							/>
 						</div>
 					</div>
 
 					<StoryForm />
+
+					{props.story && <PublishConfirmDialog
+						isOpen={props.publishConfirmDialog}
+						onCancel={props.closePublishConfirmDialog}
+						onConfirm={props.publishStory}
+					/>}
 				</div>
 			</div>
 		</div>
@@ -80,19 +105,25 @@ export default compose(
 			initializeForm,
 			updateStory: storiesAPI.actions.updateStory,
 			getStory: storiesAPI.actions.getStory,
+			publishStory: storiesAPI.actions.publishStory,
 			resetStoryEditor,
 		},
 	),
+
+	withState('publishConfirmDialog', 'setPublishConfirmDialog', false),
 
 	withProps(
 		({ formData, story }) => ({
 			hasUnsavedChanges: story
 				&& formData
-				&& !_.isEqual(formData, { ..._.pick(story, ['text', 'name']) }),
+				&& !_.isEqual(formData, { ..._.pick(story.draftContent, ['text', 'name']) }),
 		}),
 	),
 
 	withHandlers({
+		openPublishConfirmDialog: props => () => props.setPublishConfirmDialog(true),
+		closePublishConfirmDialog: props => () => props.setPublishConfirmDialog(false),
+
 		saveForm: props => () => {
 			if (!_.isEmpty(props.formData) && !props.isSaving && !props.isFetching) {
 				const storyId = _.get(props, 'story._id');
@@ -105,6 +136,11 @@ export default compose(
 				}
 			}
 		},
+	}),
+
+	withHandlers({
+		publishStory: props => () => props.publishStory(props.story._id)
+			.then(() => props.closePublishConfirmDialog()),
 	}),
 
 	lifecycle({
@@ -120,7 +156,7 @@ export default compose(
 
 		componentWillReceiveProps(nextProps) {
 			if (_.isEmpty(this.props.formData) && !this.props.story && nextProps.story) {
-				this.props.initializeForm('story-form', { ..._.pick(nextProps.story, ['text', 'name']) });
+				this.props.initializeForm('story-form', { ..._.pick(nextProps.story.draftContent, ['text', 'name']) });
 			}
 
 			if (!nextProps.match.params.storyId && this.props.match.params.storyId) {
