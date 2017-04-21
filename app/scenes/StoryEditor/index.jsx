@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers, lifecycle, withProps } from 'recompose';
+import { compose, withHandlers, lifecycle, withProps, withState } from 'recompose';
 import { getFormValues } from 'redux-form';
 import { withRouter } from 'react-router';
 import StoryForm from './components/StoryForm';
@@ -80,15 +80,21 @@ export default compose(
 		},
 	),
 
-	withProps(
-		({ formData, story }) => {
-			const initialValues = story ? { ..._.pick(story, ['text', 'name']) } : null;
+	withState(
+		'initialValues',
+		'setInitialValues',
 
-			return {
-				initialValues,
-				hasUnsavedChanges: initialValues && formData && !_.isEqual(formData, initialValues),
-			};
-		},
+		/* eslint-disable no-confusing-arrow */
+		props => _.get(props, 'match.params.storyId', false) ? null : {},
+		/* eslint-enable no-confusing-arrow */
+	),
+
+	withProps(
+		({ formData, story }) => ({
+			hasUnsavedChanges: story
+				&& formData
+				&& !_.isEqual(formData, { ..._.pick(story, ['text', 'name']) }),
+		}),
 	),
 
 	withHandlers({
@@ -115,6 +121,12 @@ export default compose(
 			}
 
 			this.autosaver = setInterval(this.props.saveForm, 5000);
+		},
+
+		componentWillReceiveProps(nextProps) {
+			if (_.isNull(nextProps.initialValues) && nextProps.story) {
+				this.props.setInitialValues({ ..._.pick(nextProps.story, ['text', 'name']) });
+			}
 		},
 
 		componentWillUnmount() {
