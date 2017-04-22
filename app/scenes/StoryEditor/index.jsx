@@ -14,7 +14,7 @@ import type { User } from '../../services/entities/user';
 import type { Story } from '../../services/entities/story';
 import reducers from './reducers';
 import * as selectors from './selectors';
-import { stories as storiesAPI } from '../../services/api';
+import { stories as storiesAPI, auth as authAPI } from '../../services/api';
 import { resetStoryEditor } from './actions';
 
 type NewStoryProps = {
@@ -107,6 +107,7 @@ export default compose(
 			getStory: storiesAPI.actions.getStory,
 			publishStory: storiesAPI.actions.publishStory,
 			resetStoryEditor,
+			updateAuthUser: authAPI.actions.getMe,
 		},
 	),
 
@@ -130,9 +131,15 @@ export default compose(
 
 				if (!storyId) {
 					props.createStory(props.formData)
-						.then(({ payload }) => props.history.replace(`/p/${payload.result}`));
+						.then(({ payload }) => {
+							props.history.replace(`/p/${payload.result}`);
+							props.updateAuthUser();
+						});
 				} else if (props.hasUnsavedChanges) {
-					props.updateStory({ storyId, data: props.formData });
+					props.updateStory({ storyId, data: props.formData })
+						.then(() => {
+							props.updateAuthUser();
+						});
 				}
 			}
 		},
@@ -140,7 +147,10 @@ export default compose(
 
 	withHandlers({
 		publishStory: props => () => props.publishStory(props.story._id)
-			.then(() => props.closePublishConfirmDialog()),
+			.then(() => {
+				props.closePublishConfirmDialog();
+				props.updateAuthUser();
+			}),
 	}),
 
 	lifecycle({

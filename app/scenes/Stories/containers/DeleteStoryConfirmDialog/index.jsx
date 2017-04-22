@@ -7,7 +7,7 @@ import Dialog from 'material-ui/Dialog';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import reducers from './reducers';
-import { stories as storiesAPI } from '../../../../services/api';
+import { stories as storiesAPI, auth as authAPI } from '../../../../services/api';
 
 type DeleteStoryConfirmDialogProps = {
 	isOpen: boolean,
@@ -49,6 +49,7 @@ export default compose(
 		{
 			closeDialog: actions.closeDeleteConfirmDialog,
 			deleteStory: storiesAPI.actions.deleteStory,
+			updateAuthUser: authAPI.actions.getMe,
 		},
 	),
 
@@ -56,7 +57,10 @@ export default compose(
 		onConfirm: props => () => {
 			if (props.storyId) {
 				props.deleteStory(props.storyId)
-					.then(() => props.closeDialog());
+					.then(() => {
+						props.closeDialog();
+						props.updateAuthUser();
+					});
 			}
 		},
 	}),

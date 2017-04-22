@@ -4,17 +4,19 @@ import NavigationLink from '../NavigationLink';
 
 type NavigationBarProps = {
   basePath: string,
+  draftsAmount: number,
+  publicationsAmount: number,
 }
 
 const NavigationBar = (props: NavigationBarProps) => <div style={{ paddingLeft: 16 }}>
   <NavigationLink
     to={`${props.basePath}/drafts`}
-    label="Drafts"
+    label={`Drafts ${props.draftsAmount}`}
   />
 
   <NavigationLink
     to={`${props.basePath}/public`}
-    label="Public"
+    label={`Public ${props.publicationsAmount}`}
   />
 </div>;
 

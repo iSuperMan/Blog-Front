@@ -17,12 +17,11 @@ const AuthenticatedStoryEditor = AuthenticatedComponent(StoryEditor);
 const AuthenticatedStories = AuthenticatedComponent(Stories);
 
 type AppProps = {
-	isAuthFetching: boolean,
 	isAuthPassed: boolean,
 }
 
 const App = (props: AppProps) => {
-	if (props.isAuthPassed && !props.isAuthFetching) {
+	if (props.isAuthPassed) {
 		return (
 			<Layout>
 				<Switch>
@@ -44,7 +43,6 @@ const App = (props: AppProps) => {
 export default compose(
 	connect(
 		state => ({
-			isAuthFetching: authSelectors.getIsFetching(state),
 			isAuthPassed: authSelectors.getIsPassed(state),
 			authUser: authSelectors.getUser(state),
 			isAuthenticated: authSelectors.getIsAuthenticated(state),

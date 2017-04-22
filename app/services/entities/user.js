@@ -14,5 +14,7 @@ export type User = {
   email: string,
   username: string,
   fullName: string,
+	publicationsAmount: number,
+	draftsAmount: number,
   _id: string,
 };

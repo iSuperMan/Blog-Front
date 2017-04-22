@@ -2,14 +2,19 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { Switch, Route, Redirect, withRouter } from 'react-router';
 import reducers from './reducers';
 import Drafts from './containers/Drafts';
 import DeleteStoryConfirmDialog from './containers/DeleteStoryConfirmDialog';
 import Publications from './containers/Publications';
 import NavigationBar from './components/NavigationBar';
+import { selectors as authSelectors } from '../../services/auth';
+import type { User } from '../../services/entities/user';
 
 type StoriesProps = {
+	user: User,
 	match: {
 		path: string,
 	},
@@ -45,7 +50,11 @@ const Stories = (props: StoriesProps) => <div className="container">
 
 			<div className="row" style={{ marginTop: 15 }}>
 				<div className="col-sm-12">
-					<NavigationBar basePath={props.match.path} />
+					<NavigationBar
+						draftsAmount={props.user.draftsAmount}
+						publicationsAmount={props.user.publicationsAmount}
+						basePath={props.match.path}
+					/>
 				</div>
 			</div>
 
@@ -70,4 +79,7 @@ const Stories = (props: StoriesProps) => <div className="container">
 </div>;
 
 export { reducers };
-export default withRouter(Stories);
+export default compose(
+	connect(state => ({ user: authSelectors.getUser(state) })),
+	withRouter,
+)(Stories);
