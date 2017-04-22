@@ -4,6 +4,7 @@ import FloalaEditor from 'react-froala-wysiwyg';
 import { reduxForm, Field } from 'redux-form';
 import ChipInput from 'material-ui-chip-input';
 import InputField from '../../../../components/InputField';
+import CoverImagePicker from '../../containers/CoverImagePicker';
 
 const StoryForm = () => <form style={{ marginBottom: 50 }}>
 	<Field
@@ -26,6 +27,10 @@ const StoryForm = () => <form style={{ marginBottom: 50 }}>
 		style={{ fontSize: 40, fontWeight: 'bold', marginBottom: 30 }}
 		underlineStyle={{ border: 'none' }}
 	/>
+
+	<div style={{ marginBottom: 30 }}>
+		<Field name="cover" component={CoverImagePicker} />
+	</div>
 
 	<Field
 		name="text"

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import { stories as storiesAPI } from '../../services/api';
+import { reducers as coverImagePicker } from './containers/CoverImagePicker';
 import { types } from './actions';
 
 const getStoryFromAction = (state, action) => _.get(action, 'payload.result', null);
@@ -28,4 +29,6 @@ export default combineReducers({
 		[storiesAPI.types.GET_STORY_SUCCESS]: () => false,
 		[storiesAPI.types.GET_STORY_FAILURE]: () => false,
 	}, false),
+
+	coverImagePicker,
 });

@@ -37,6 +37,7 @@ type NewStoryProps = {
 
 const storyToFormData = (story: Story) => ({
 	..._.pick(story.draftContent, ['text', 'name']),
+	cover: _.get(story.draftContent, 'cover._id', undefined),
 	tags: story.tags,
 });
 
