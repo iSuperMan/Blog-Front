@@ -166,7 +166,7 @@ export default compose(
 				this.props.getStory(storyId);
 			}
 
-			this.autosaver = setInterval(this.props.saveForm, 5000);
+			this.autosaver = setInterval(this.props.saveForm, 2500);
 		},
 
 		componentWillReceiveProps(nextProps) {
