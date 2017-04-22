@@ -8,11 +8,13 @@ import EntryDialog from '../EntryDialog';
 import AuthenticatedComponent from '../AuthenticatedComponent';
 import StoryEditor from '../../scenes/StoryEditor';
 import Profile from '../../scenes/Profile';
+import Stories from '../../scenes/Stories';
 import { auth as authAPI } from '../../services/api';
 import { actions as authActions, selectors as authSelectors } from '../../services/auth';
 import { token } from '../../services/helpers';
 
 const AuthenticatedStoryEditor = AuthenticatedComponent(StoryEditor);
+const AuthenticatedStories = AuthenticatedComponent(Stories);
 
 type AppProps = {
 	isAuthFetching: boolean,
@@ -27,6 +29,7 @@ const App = (props: AppProps) => {
 					<Route exact path="/" render={() => <div>Home</div>} />
 					<Route exact path="/new-story" component={AuthenticatedStoryEditor} />
 					<Route path="/p/:storyId" component={AuthenticatedStoryEditor} />
+					<Route path="/me/stories" component={AuthenticatedStories} />
 					<Route path="/@:username" component={Profile} />
 				</Switch>
 

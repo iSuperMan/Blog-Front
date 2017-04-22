@@ -7,6 +7,7 @@ import { reducers as auth } from './services/auth';
 import { reducers as ui } from './services/ui';
 import { reducers as profileScene } from './scenes/Profile';
 import { reducers as storyEditorScene } from './scenes/StoryEditor';
+import { reducers as storiesScene } from './scenes/Stories';
 
 const reducers = combineReducers({
 	auth,
@@ -16,6 +17,7 @@ const reducers = combineReducers({
 	router,
 	ui,
 	profileScene,
+	storiesScene,
 	storyEditorScene,
 });
 
