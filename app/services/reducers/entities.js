@@ -1,8 +1,14 @@
-import merge from 'lodash/merge';
+import _ from 'lodash';
 
 export default (state = {}, action) => {
 	if (action.payload && action.payload.entities) {
-		return merge({}, state, action.payload.entities);
+		/* eslint-disable consistent-return */
+		return _.mergeWith({}, state, action.payload.entities, (objValue, srcValue) => {
+			if (_.isArray(srcValue)) {
+				return [...srcValue];
+			}
+		});
+		/* eslint-enable consistent-return */
 	}
 
 	if (action.meta && action.meta.delete) {

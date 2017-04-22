@@ -35,6 +35,11 @@ type NewStoryProps = {
 	}
 };
 
+const storyToFormData = (story: Story) => ({
+	..._.pick(story.draftContent, ['text', 'name']),
+	tags: story.tags,
+});
+
 const StoryEditor = (props : NewStoryProps) => {
 	if (!props.story && (props.isFetching || props.match.params.storyId)) {
 		return null;
@@ -117,7 +122,7 @@ export default compose(
 		({ formData, story }) => ({
 			hasUnsavedChanges: story
 				&& formData
-				&& !_.isEqual(formData, { ..._.pick(story.draftContent, ['text', 'name']) }),
+				&& !_.isEqual(formData, storyToFormData(story)),
 		}),
 	),
 
@@ -166,7 +171,7 @@ export default compose(
 
 		componentWillReceiveProps(nextProps) {
 			if (_.isEmpty(this.props.formData) && !this.props.story && nextProps.story) {
-				this.props.initializeForm('story-form', { ..._.pick(nextProps.story.draftContent, ['text', 'name']) });
+				this.props.initializeForm('story-form', storyToFormData(nextProps.story));
 			}
 
 			if (!nextProps.match.params.storyId && this.props.match.params.storyId) {
