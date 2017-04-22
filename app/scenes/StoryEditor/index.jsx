@@ -130,7 +130,7 @@ export default compose(
 
 				if (!storyId) {
 					props.createStory(props.formData)
-						.then(({ payload }) => props.history.push(`/p/${payload.result}`));
+						.then(({ payload }) => props.history.replace(`/p/${payload.result}`));
 				} else if (props.hasUnsavedChanges) {
 					props.updateStory({ storyId, data: props.formData });
 				}
@@ -170,6 +170,7 @@ export default compose(
 		},
 
 		componentWillUnmount() {
+			this.props.resetStoryEditor();
 			clearInterval(this.autosaver);
 		},
 	}),
