@@ -54,4 +54,5 @@ export default reduxForm({
 	form: 'story-form',
 	touchOnBlur: false,
 	touchOnChange: true,
+	initialValues: { cover: null },
 })(StoryForm);

@@ -8,13 +8,13 @@ import CameraIcon from 'material-ui/svg-icons/image/photo-camera';
 import Avatar from 'material-ui/Avatar';
 import CircularProgress from 'material-ui/CircularProgress';
 import { compose, withHandlers, withProps, defaultProps } from 'recompose';
-import { images } from '../../../../services/api';
+import { images } from '../../../../../../services/api';
 import * as actions from './actions';
 import reducers from './reducers';
 import * as selectors from './selectors';
-import { imageSchema } from '../../../../services/entities/image';
-import type { Image } from '../../../../services/entities/image';
-import { getEntities } from '../../../../selectors';
+import { imageSchema } from '../../../../../../services/entities/image';
+import type { Image } from '../../../../../../services/entities/image';
+import { getEntities } from '../../../../../../selectors';
 
 
 type AvatarPickerType = {

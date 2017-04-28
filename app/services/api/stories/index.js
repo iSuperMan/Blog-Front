@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import _ from 'lodash';
 import { CALL_API, getJSON } from 'redux-api-middleware';
 import { normalize } from 'normalizr';
 import { storySchema, arrayOfStorySchemas } from '../../entities/story';
@@ -17,6 +18,10 @@ export const types = keyMirror({
 	GET_STORY_REQUEST: null,
 	GET_STORY_SUCCESS: null,
 	GET_STORY_FAILURE: null,
+
+	GET_PUBLICATION_REQUEST: null,
+	GET_PUBLICATION_SUCCESS: null,
+	GET_PUBLICATION_FAILURE: null,
 
 	PUBLISH_STORY_REQUEST: null,
 	PUBLISH_STORY_SUCCESS: null,
@@ -132,7 +137,7 @@ export const actions = {
 		[CALL_API]: {
 			endpoint: endpoints.STORY_API.replace(':storyId', storyId),
 			method: 'PUT',
-			body: JSON.stringify(data),
+			body: JSON.stringify(_.omitBy(data, _.isNull)),
 
 			headers: {
 				Authorization: `Bearer ${token.get()}`,
@@ -215,10 +220,41 @@ export const actions = {
 		},
 	}),
 
+	getPublication: storyId => ({
+		[CALL_API]: {
+			endpoint: endpoints.PUBLICATION_API.replace(':storyId', storyId),
+			method: 'GET',
+
+			types: [
+				types.GET_PUBLICATION_REQUEST,
+
+				{
+					type: types.GET_PUBLICATION_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.story
+								? normalize(response.story, storySchema)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.GET_PUBLICATION_FAILURE,
+			],
+		},
+	}),
+
 	getStory: storyId => ({
 		[CALL_API]: {
 			endpoint: endpoints.STORY_API.replace(':storyId', storyId),
 			method: 'GET',
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+			},
 
 			types: [
 				types.GET_STORY_REQUEST,

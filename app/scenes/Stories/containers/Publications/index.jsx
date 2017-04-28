@@ -28,8 +28,9 @@ export default compose(
 	withRouter,
 
 	withHandlers({
-		deleteClickHandleCreator: props => storyId => () => props.openDeleteConfirmDialog(storyId),
-		editClickHandleCreator: props => storyId => () => props.history.push(`/p/${storyId}`),
+		deleteClickHandleCreator: props => story => () => props.openDeleteConfirmDialog(story._id),
+		editClickHandleCreator: props => story => () => props.history.push(`/p/${story._id}`),
+		itemClickHandleCreator: props => story => () => props.history.push(`/@${story._author.username}/${story._id}`),
 	}),
 
 	lifecycle({

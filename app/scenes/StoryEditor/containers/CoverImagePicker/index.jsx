@@ -3,9 +3,11 @@ import React from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
 import { connect } from 'react-redux';
+import { change } from 'redux-form';
 import { denormalize } from 'normalizr';
 import { compose, withHandlers, withProps } from 'recompose';
 import PanoramaIcon from 'material-ui/svg-icons/image/panorama';
+import FlatButton from 'material-ui/FlatButton';
 import { images } from '../../../../services/api';
 import * as actions from './actions';
 import reducers from './reducers';
@@ -19,6 +21,13 @@ type CoverImagePickerType = {
 	inputChangeHandler: () => void,
 	loader: boolean,
 	image: Image | null,
+	meta: {
+		form: string,
+	},
+	input: {
+		name: string,
+	},
+	change: (form: string, field: string, value: any) => void,
 }
 
 const CoverImagePicker = (props: CoverImagePickerType) => <div>
@@ -29,13 +38,27 @@ const CoverImagePicker = (props: CoverImagePickerType) => <div>
     style={{ display: 'none' }}
   />
 
-  <div onTouchTap={() => !props.loader && $('#cover-image-input').click()} style={{ width: '100%', position: 'relative', cursor: 'pointer' }}>
+  <div style={{ width: '100%', position: 'relative', cursor: 'pointer' }}>
 		{props.image
 			? <div>
-				<img alt="" src={props.image.path} style={{ width: '100%' }} />
+				<img
+					alt=""
+					src={props.image.path} style={{ width: '100%' }}
+					onTouchTap={() => !props.loader && $('#cover-image-input').click()}
+				/>
+
+				<FlatButton
+					label="Remove image"
+					secondary
+					fullWidth
+					onClick={() => props.change(props.meta.form, props.input.name, null)}
+				/>
 			</div>
 
-			: <div style={{ width: '100%', height: 150, backgroundColor: '#E0E0E0', paddingTop: 40 }}>
+			: <div
+				onTouchTap={() => !props.loader && $('#cover-image-input').click()}
+				style={{ width: '100%', height: 150, backgroundColor: '#E0E0E0', paddingTop: 40 }}
+			>
 				<div style={{ width: 70, margin: 'auto' }}>
 					<PanoramaIcon style={{ width: 70, height: 70 }} color="#757575" />
 				</div>
@@ -54,6 +77,7 @@ export default compose(
 		}),
 
 		{
+			change,
 			uploadImage: images.actions.uploadImage,
 			showLoader: actions.showCoverImageLoader,
 			hideLoader: actions.hideCoverImageLoader,

@@ -5,9 +5,9 @@ import { reduxForm, Field } from 'redux-form';
 import FlatButton from 'material-ui/FlatButton';
 import { compose, withProps } from 'recompose';
 import AvatarPicker from '../../containers/AvatarPicker';
-import InputField from '../../../../components/InputField';
+import InputField from '../../../../../../components/InputField';
 import UserStatistic from '../UserStatistic';
-import { isRequired } from '../../../../services/validators';
+import { isRequired } from '../../../../../../services/validators';
 import styles from './assets/styles.css';
 
 type UserEditFormProps = {

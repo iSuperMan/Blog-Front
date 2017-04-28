@@ -9,6 +9,7 @@ type StoriesListProps = {
 	isFetching: boolean,
 	deleteClickHandleCreator: () => any,
 	editClickHandleCreator: () => any,
+	itemClickHandleCreator: () => any,
 }
 
 const StoriesList = (props: StoriesListProps) => {
@@ -18,8 +19,9 @@ const StoriesList = (props: StoriesListProps) => {
 
 	return (<List>
 		{props.stories.map(story => <StoryItem
-			deleteClickHandler={props.deleteClickHandleCreator(story._id)}
-			editClickHandler={props.editClickHandleCreator(story._id)}
+			deleteClickHandler={props.deleteClickHandleCreator(story)}
+			editClickHandler={props.editClickHandleCreator(story)}
+			itemClickHandler={props.itemClickHandleCreator(story)}
 			key={story._id}
 			story={story}
 		/>)}

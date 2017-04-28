@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import styles from './assets/styles.css';
 import UserStatistic from '../UserStatistic';
-import type { User } from '../../../../services/entities/user';
+import type { User } from '../../../../../../services/entities/user';
 
 type UserPreviewProps = {
   user: User,

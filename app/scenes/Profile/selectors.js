@@ -4,9 +4,7 @@ import { denormalize } from 'normalizr';
 import { getProfileScene, getEntities } from '../../selectors';
 import { userSchema } from '../../services/entities/user';
 
-export const getEditMode = createSelector(getProfileScene, scene => _.get(scene, 'editMode', false));
 export const getIsUserFetching = createSelector(getProfileScene, scene => _.get(scene, 'user.isFetching', false));
-export const getAvatarPicker = createSelector(getProfileScene, scene => _.get(scene, 'avatarPicker', {}));
 
 export const getUser = createSelector(
   [getProfileScene, getEntities],
@@ -14,3 +12,6 @@ export const getUser = createSelector(
   (scene, entities) =>
     denormalize(_.get(scene, 'user.result', null), userSchema, entities),
 );
+
+export const getUserDetailsScene = createSelector(getProfileScene, scene => _.get(scene, 'userDetailsScene'));
+export const getPublicationScene = createSelector(getProfileScene, scene => _.get(scene, 'publicationScene'));

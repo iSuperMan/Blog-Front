@@ -10,7 +10,7 @@
     "react"
   ],
   "rules": {
-    "no-underscore-dangle": ['error', { "allow": ["_id"] }],
+    "no-underscore-dangle": ['error', { "allow": ["_id", "_author"] }],
     "no-tabs": 0,
     "indent": ["error", "tab"],
     "react/jsx-indent": [0, "tab"],

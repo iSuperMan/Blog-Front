@@ -19,12 +19,13 @@ type PublicationItemProps = {
   story: Story,
   editClickHandler: () => void,
   deleteClickHandler: () => void,
+  itemClickHandler: () => void,
 };
 
 const PublicationItem = ({
-  story, editClickHandler, deleteClickHandler,
+  story, editClickHandler, deleteClickHandler, itemClickHandler,
 }: PublicationItemProps) => <ListItem
-  onTouchTap={editClickHandler}
+  onTouchTap={itemClickHandler}
   primaryText={story.draftContent.name || 'Untitled story'}
   secondaryTextLines={2}
   secondaryText={`Last edited ${formatDate(story.lastEditedDate)}${story.hasUnpublishedChanges ? ' · Unpublished changes' : ''}`}

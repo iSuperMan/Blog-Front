@@ -5,10 +5,10 @@ import { compose, lifecycle, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import UserPreview from '../../components/UserPreview';
 import UserEditForm from '../../components/UserEditForm';
-import { actions as UIActions } from '../../../../services/ui';
-import { selectors as authSelectors } from '../../../../services/auth';
-import { users } from '../../../../services/api';
-import type { User } from '../../../../services/entities/user';
+import { actions as UIActions } from '../../../../../../services/ui';
+import { selectors as authSelectors } from '../../../../../../services/auth';
+import { users } from '../../../../../../services/api';
+import type { User } from '../../../../../../services/entities/user';
 import * as selectors from '../../selectors';
 import * as actions from '../../actions';
 

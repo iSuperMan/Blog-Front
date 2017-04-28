@@ -8,7 +8,7 @@ import { withRouter } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import PublishConfirmDialog from './components/PublishConfirmDialog';
 import StoryForm from './components/StoryForm';
-import UserPreview from './components/UserPreview';
+import UserPreview from '../../components/UserPreview';
 import { selectors as authSelectors } from '../../services/auth';
 import type { User } from '../../services/entities/user';
 import type { Story } from '../../services/entities/story';
@@ -16,6 +16,7 @@ import reducers from './reducers';
 import * as selectors from './selectors';
 import { stories as storiesAPI, auth as authAPI } from '../../services/api';
 import { resetStoryEditor } from './actions';
+import { formatDate } from '../../services/helpers';
 
 type NewStoryProps = {
 	user: User,
@@ -37,7 +38,7 @@ type NewStoryProps = {
 
 const storyToFormData = (story: Story) => ({
 	..._.pick(story.draftContent, ['text', 'name']),
-	cover: _.get(story.draftContent, 'cover._id', undefined),
+	cover: _.get(story.draftContent, 'cover._id', null),
 	tags: story.tags,
 });
 
@@ -55,7 +56,13 @@ const StoryEditor = (props : NewStoryProps) => {
 				<div className="col-sm-10 offset-sm-1">
 					<div className="row" style={{ marginBottom: 45 }}>
 						<div className="col-sm-10">
-							<UserPreview user={props.user} />
+							<UserPreview
+								user={props.user}
+								bottomText={props.story && props.story.isPublished
+									? formatDate(props.story.lastEditedDate)
+									: 'Draft'
+								}
+							/>
 						</div>
 
 						<div className="col-sm-2" style={{ textAlign: 'right' }}>
@@ -156,6 +163,7 @@ export default compose(
 			.then(() => {
 				props.closePublishConfirmDialog();
 				props.updateAuthUser();
+				props.history.push(`/@${props.story._author.username}/${props.story._id}`);
 			}),
 	}),
 

@@ -1,6 +1,8 @@
 import { schema } from 'normalizr';
 import { imageSchema } from './image';
 import type { Image } from './image';
+import { userSchema } from './user';
+import type { User } from './user';
 
 export const storySchema = new schema.Entity('stories', {
 	draftContent: {
@@ -10,6 +12,8 @@ export const storySchema = new schema.Entity('stories', {
 	publishContent: {
 		cover: imageSchema,
 	},
+
+	_author: userSchema,
 }, { idAttribute: '_id' });
 export const arrayOfStorySchemas = new schema.Array(storySchema);
 
@@ -31,5 +35,6 @@ export type Story = {
   lastPublishedDate?: string,
   isPublished: boolean,
   hasUnpublishedChanges?: boolean,
+	_author: User,
   _id: string,
 };

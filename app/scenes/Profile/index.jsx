@@ -2,15 +2,20 @@
 import React from 'react';
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
-import Details from './containers/Details';
+import { Switch, Route } from 'react-router';
+import UserDetails from './scenes/UserDetails';
 import reducers from './reducers';
 import { getIsUserFetching, getUser } from './selectors';
 import type { User } from '../../services/entities/user';
 import { users as usersAPI } from '../../services/api';
+import Publication from './scenes/Publication';
 
 type ProfileProps = {
 	isUserFetching: boolean,
 	user: User | null,
+	match: {
+		path: string,
+	},
 };
 
 const Profile = (props: ProfileProps) => {
@@ -18,7 +23,17 @@ const Profile = (props: ProfileProps) => {
 		return null;
 	}
 
-	return <Details user={props.user} />;
+	return (
+		<Switch>
+			<Route
+				exact
+				path={props.match.path}
+				render={() => <UserDetails user={props.user} />}
+			/>
+
+			<Route path={`${props.match.path}/:publicationId`} component={Publication} />
+		</Switch>
+	);
 };
 
 export { reducers };
