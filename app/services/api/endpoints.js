@@ -12,6 +12,7 @@ export default {
 
 	STORIES_API: '/api/stories',
 	STORY_API: '/api/stories/:storyId',
+	STORY_COMMENTARY_API: '/api/stories/:storyId/commentary',
 	PUBLICATION_API: '/api/stories/:storyId/publication',
 	PUBLISH_STORY_API: '/api/stories/:storyId/publish',
 	PUBLISHED_STORIES_BY_USER_API: '/api/stories/by-user/:userId',

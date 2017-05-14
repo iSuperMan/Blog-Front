@@ -7,6 +7,7 @@ import reducers from './reducers';
 import * as selectors from './selectors';
 import type { Story } from '../../../../services/entities/story';
 import Details from './components/Details';
+import Commentaries from './components/Commentaries';
 import { selectors as authSelectors } from '../../../../services/auth';
 
 type PublicationProps = {
@@ -20,7 +21,10 @@ const Publication = (props: PublicationProps) => {
 		return null;
 	}
 
-	return <Details publication={props.publication} isCanEdit={props.isCanEdit} />;
+	return (<div>
+		<Details publication={props.publication} isCanEdit={props.isCanEdit} />
+		<Commentaries publication={props.publication} />
+	</div>);
 };
 
 export { reducers };

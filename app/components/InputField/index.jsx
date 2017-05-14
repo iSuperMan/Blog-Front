@@ -38,11 +38,11 @@ const InputField = (props: InputFieldProps) => <Field
 	{...props}
 
 	component={(renderProps: RenderComponentProps) => <TextField
-		{..._.omit(renderProps, ['meta', 'input'])}
+		{..._.omit(renderProps, ['meta', 'input', 'hideError'])}
 		{...renderProps.input}
 		disabled={renderProps.disabled}
 		type={renderProps.type}
-		errorText={renderProps.meta.touched && renderProps.meta.error}
+		errorText={!renderProps.hideError && renderProps.meta.touched && renderProps.meta.error}
 	/>}
 />;
 

@@ -38,6 +38,10 @@ export const types = keyMirror({
 	DELETE_STORY_REQUEST: null,
 	DELETE_STORY_SUCCESS: null,
 	DELETE_STORY_FAILURE: null,
+
+	POST_STORY_COMMENTARY_REQUEST: null,
+	POST_STORY_COMMENTARY_SUCCESS: null,
+	POST_STORY_COMMENTARY_FAILURE: null,
 });
 
 export const actions = {
@@ -243,6 +247,40 @@ export const actions = {
 				},
 
 				types.GET_PUBLICATION_FAILURE,
+			],
+		},
+	}),
+
+	postStoryCommentary: ({ storyId, body }) => ({
+		[CALL_API]: {
+			endpoint: endpoints.STORY_COMMENTARY_API.replace(':storyId', storyId),
+			method: 'POST',
+			body: JSON.stringify({ body }),
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+
+			types: [
+				types.POST_STORY_COMMENTARY_REQUEST,
+
+				{
+					type: types.POST_STORY_COMMENTARY_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.story
+								? normalize(response.story, storySchema)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.POST_STORY_COMMENTARY_FAILURE,
 			],
 		},
 	}),

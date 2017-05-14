@@ -2,6 +2,7 @@ import { schema } from 'normalizr';
 import { imageSchema } from './image';
 import type { Image } from './image';
 import { userSchema } from './user';
+import { arrayOfCommentarySchemas } from './commentary';
 import type { User } from './user';
 
 export const storySchema = new schema.Entity('stories', {
@@ -14,6 +15,7 @@ export const storySchema = new schema.Entity('stories', {
 	},
 
 	_author: userSchema,
+	commentaries: arrayOfCommentarySchemas,
 }, { idAttribute: '_id' });
 export const arrayOfStorySchemas = new schema.Array(storySchema);
 
