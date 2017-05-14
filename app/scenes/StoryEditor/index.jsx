@@ -139,17 +139,19 @@ export default compose(
 		closePublishConfirmDialog: props => () => props.setPublishConfirmDialog(false),
 
 		saveForm: props => () => {
-			if (!_.isEmpty(props.formData) && !props.isSaving && !props.isFetching) {
+			const cleanFormData = _.omitBy(props.formData, _.isNull);
+
+			if (!_.isEmpty(cleanFormData) && !props.isSaving && !props.isFetching) {
 				const storyId = _.get(props, 'story._id');
 
 				if (!storyId) {
-					props.createStory(props.formData)
+					props.createStory(cleanFormData)
 						.then(({ payload }) => {
 							props.history.replace(`/p/${payload.result}`);
 							props.updateAuthUser();
 						});
 				} else if (props.hasUnsavedChanges) {
-					props.updateStory({ storyId, data: props.formData })
+					props.updateStory({ storyId, data: cleanFormData })
 						.then(() => {
 							props.updateAuthUser();
 						});
@@ -179,7 +181,7 @@ export default compose(
 		},
 
 		componentWillReceiveProps(nextProps) {
-			if (_.isEmpty(this.props.formData) && !this.props.story && nextProps.story) {
+			if (!this.props.story && nextProps.story) {
 				this.props.initializeForm('story-form', storyToFormData(nextProps.story));
 			}
 
