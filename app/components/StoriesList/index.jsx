@@ -2,6 +2,8 @@
 import React from 'react';
 import _ from 'lodash';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble';
 import { grey600 } from 'material-ui/styles/colors';
@@ -44,9 +46,18 @@ const StoriesList = (props: StoriesListTypes) => {
 						style={{ marginBottom: 30 }}
 					>
 						<CardHeader
-							title={`${_.get(story, '_author.fullName')}`}
+							title={<Link
+								to={`/@${_.get(story, '_author.username')}`}
+								style={{ color: '#212121', textDecoration: 'none' }}
+							>{_.get(story, '_author.fullName')}</Link>}
+
 							subtitle={formatDate(story.firstPublishedDate)}
-							avatar={`${_.get(story, '_author.avatar.path')}`}
+
+							avatar={
+								<Link to={`/@${_.get(story, '_author.username')}`}>
+									<Avatar src={_.get(story, '_author.avatar.path')} />
+								</Link>
+							}
 						/>
 
 						{story.publishContent.cover && <CardMedia
