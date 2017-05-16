@@ -6,7 +6,7 @@ import { stories } from '../../../../services/api';
 import reducers from './reducers';
 import * as selectors from './selectors';
 import type { Story } from '../../../../services/entities/story';
-import Details from './components/Details';
+import Details from './containers/Details';
 import Commentaries from './components/Commentaries';
 import { selectors as authSelectors } from '../../../../services/auth';
 

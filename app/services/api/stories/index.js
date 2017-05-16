@@ -50,6 +50,14 @@ export const types = keyMirror({
 	POST_STORY_COMMENTARY_REQUEST: null,
 	POST_STORY_COMMENTARY_SUCCESS: null,
 	POST_STORY_COMMENTARY_FAILURE: null,
+
+	LIKE_STORY_REQUEST: null,
+	LIKE_STORY_SUCCESS: null,
+	LIKE_STORY_FAILURE: null,
+
+	UNLIKE_STORY_REQUEST: null,
+	UNLIKE_STORY_SUCCESS: null,
+	UNLIKE_STORY_FAILURE: null,
 });
 
 export const actions = {
@@ -260,6 +268,68 @@ export const actions = {
 				},
 
 				types.PUBLISH_STORY_FAILURE,
+			],
+		},
+	}),
+
+	likeStory: storyId => ({
+		[CALL_API]: {
+			endpoint: endpoints.LIKE_STORY_API.replace(':storyId', storyId),
+			method: 'GET',
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+			},
+
+			types: [
+				types.LIKE_STORY_REQUEST,
+
+				{
+					type: types.LIKE_STORY_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.story
+								? normalize(response.story, storySchema)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.LIKE_STORY_FAILURE,
+			],
+		},
+	}),
+
+	unlikeStory: storyId => ({
+		[CALL_API]: {
+			endpoint: endpoints.UNLIKE_STORY_API.replace(':storyId', storyId),
+			method: 'GET',
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+			},
+
+			types: [
+				types.UNLIKE_STORY_REQUEST,
+
+				{
+					type: types.UNLIKE_STORY_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.story
+								? normalize(response.story, storySchema)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.UNLIKE_STORY_FAILURE,
 			],
 		},
 	}),
