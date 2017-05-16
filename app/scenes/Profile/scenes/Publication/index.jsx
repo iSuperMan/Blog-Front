@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { compose, lifecycle, withProps } from 'recompose';
 import { stories } from '../../../../services/api';
@@ -42,7 +43,7 @@ export default compose(
 
 	withProps(
 		({ publication, me }) => ({
-			isCanEdit: publication && me._id === publication._author._id,
+			isCanEdit: publication && _.get(me, '_id') === publication._author._id,
 		}),
 	),
 
