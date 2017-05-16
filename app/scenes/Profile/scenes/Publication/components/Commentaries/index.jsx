@@ -2,15 +2,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { reset } from 'redux-form';
+import RaisedButton from 'material-ui/RaisedButton';
 import CommentaryForm from './components/CommentaryForm';
 import CommentariesList from './components/CommentariesList';
 import { stories } from '../../../../../../services/api';
 import type { Story } from '../../../../../../services/entities/story';
+import { selectors as authSelectors } from '../../../../../../services/auth';
+import { actions as entryDialogActions } from '../../../../../../containers/EntryDialog';
+import type { User } from '../../../../../../services/entities/user';
 
 type CommentariesTypes = {
 	postStoryCommentary: () => Promise<any>,
 	resetForm: () => void,
 	publication: Story,
+	me: User | null,
+	openEntryDialog: () => void,
 }
 
 const Commentaries = (props: CommentariesTypes) => <div
@@ -24,14 +30,23 @@ const Commentaries = (props: CommentariesTypes) => <div
         </div>
 
         <div style={{ marginTop: 15 }}>
-					<CommentaryForm
-						onSubmit={({ body }) =>
-							props.postStoryCommentary({ body, storyId: props.publication._id })
-								.then(() => {
-									props.resetForm('commetaryForm');
-								})
-						}
-					/>
+					{props.me
+						? <CommentaryForm
+							onSubmit={({ body }) =>
+								props.postStoryCommentary({ body, storyId: props.publication._id })
+									.then(() => {
+										props.resetForm('commetaryForm');
+									})
+							}
+						/>
+
+						: <RaisedButton
+							label="Войдите, чтобы оставить комментарий"
+							primary
+							fullWidth
+							style={{ marginTop: 15 }}
+							onTouchTap={() => props.openEntryDialog()}
+						/>}
         </div>
 
 				<div style={{ marginTop: 30 }}>
@@ -43,6 +58,11 @@ const Commentaries = (props: CommentariesTypes) => <div
 </div>;
 
 export default connect(
-  null,
-	{ postStoryCommentary: stories.actions.postStoryCommentary, resetForm: reset },
+	state => ({ me: authSelectors.getUser(state) }),
+
+	{
+		postStoryCommentary: stories.actions.postStoryCommentary,
+		resetForm: reset,
+		openEntryDialog: entryDialogActions.openEntryDialog,
+	},
 )(Commentaries);
