@@ -2,6 +2,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
 import LatestStoriesList from '../../containers/LatestStoriesList';
+import RecommendsStoriesList from '../../containers/RecommendsStoriesList';
 import type { User } from '../../../../../../services/entities/user';
 
 type StoriesListsTypes = {
@@ -22,7 +23,7 @@ const StoriesLists = (props: StoriesListsTypes) => <div>
 
           <Route
             path={`${props.basePath}/has-recommends`}
-            render={() => <div>Recommends list</div>}
+            render={() => <RecommendsStoriesList user={props.user} />}
           />
         </Switch>
       </div>
