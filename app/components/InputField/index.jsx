@@ -38,7 +38,7 @@ const InputField = (props: InputFieldProps) => <Field
 	{...props}
 
 	component={(renderProps: RenderComponentProps) => <TextField
-		{..._.omit(renderProps, ['meta', 'input', 'hideError'])}
+		{..._.omit(renderProps, ['meta', 'input', 'hideError', 'asyncValidate', 'formName'])}
 		{...renderProps.input}
 		disabled={renderProps.disabled}
 		type={renderProps.type}
