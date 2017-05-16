@@ -59,5 +59,11 @@ export default compose(
 		componentDidMount() {
 			this.props.fetchUserByUsername(this.props.match.params.username, { source: 'profile' });
 		},
+
+		componentWillReceiveProps(nextProps) {
+			if (this.props.match.params.username !== nextProps.match.params.username) {
+				this.props.fetchUserByUsername(nextProps.match.params.username, { source: 'profile' });
+			}
+		},
 	}),
 )(Profile);
