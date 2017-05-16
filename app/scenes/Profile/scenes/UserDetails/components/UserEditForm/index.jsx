@@ -9,6 +9,7 @@ import InputField from '../../../../../../components/InputField';
 import UserStatistic from '../UserStatistic';
 import { isRequired } from '../../../../../../services/validators';
 import styles from './assets/styles.css';
+import type { User } from '../../../../../../services/entities/user';
 
 type UserEditFormProps = {
 	onCancelButtonClick: () => void,
@@ -16,6 +17,7 @@ type UserEditFormProps = {
 	submitting: boolean,
 	invalid: boolean,
 	dirty: boolean,
+	user: User,
 }
 
 const UserEditForm = (props: UserEditFormProps) => (
@@ -49,7 +51,10 @@ const UserEditForm = (props: UserEditFormProps) => (
 						validate={[]}
 					/>
 
-					<UserStatistic followersAmount={29} followingAmount={938} />
+					<UserStatistic
+						followersAmount={props.user.followers.length}
+						followingAmount={props.user.followings.length}
+					/>
 
 					<x-user-actions>
 						<FlatButton
