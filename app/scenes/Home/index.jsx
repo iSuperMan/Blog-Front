@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router';
 import reducers from './reducers';
 import Navbar from './components/Navbar';
 import LatestStoriesList from './containers/LatestStoriesList';
+import PopularStoriesList from './containers/PopularStoriesList';
 
 const Home = () => <div className="container">
   <div className="row" style={{ marginTop: 35 }}>
@@ -17,7 +18,7 @@ const Home = () => <div className="container">
 
         <Route
           path="/favorites"
-          render={() => <div>Favorites</div>}
+          render={() => <PopularStoriesList />}
         />
 
       </Switch>

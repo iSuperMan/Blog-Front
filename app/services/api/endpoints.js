@@ -22,5 +22,6 @@ export default {
 	PUBLISHED_STORIES_BY_USER_API: '/api/stories/by-user/:userId',
 	RECOMMENDS_STORIES_BY_USER_API: '/api/stories/recommends/:userId',
 	LATESTS_STORIES_API: '/api/stories/latests',
+	POPULAR_STORIES_API: '/api/stories/popular',
 	DRAFT_STORIES_BY_USER_API: '/api/stories/by-user/:userId/drafts',
 };
