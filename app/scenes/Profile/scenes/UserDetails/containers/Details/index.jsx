@@ -5,6 +5,8 @@ import { compose, lifecycle, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import UserPreview from '../../components/UserPreview';
 import UserEditForm from '../../components/UserEditForm';
+import Navbar from '../../components/Navbar';
+import StoriesLists from '../../components/StoriesLists';
 import { actions as UIActions } from '../../../../../../services/ui';
 import { selectors as authSelectors } from '../../../../../../services/auth';
 import { users } from '../../../../../../services/api';
@@ -20,27 +22,37 @@ type DetailsProps = {
 	onEditFormSubmit: () => void,
 };
 
-const Details = (props: DetailsProps) => <Paper>
-  <div className="container">
-		<div className="row">
-			<div className="col-sm-8 offset-sm-2">
-				{props.editMode
-					? <UserEditForm
-						onSubmit={props.onEditFormSubmit}
-						user={props.user}
-						onCancelButtonClick={() => props.toggleEditMode()}
-					/>
+const Details = (props: DetailsProps) => <div>
+	<Paper>
+		<div className="container">
+			<div className="row">
+				<div className="col-sm-8 offset-sm-2">
+					{props.editMode
+						? <UserEditForm
+							onSubmit={props.onEditFormSubmit}
+							user={props.user}
+							onCancelButtonClick={() => props.toggleEditMode()}
+						/>
 
-					: <UserPreview
-						user={props.user}
-						me={props.me}
-						onEditButtonClick={() => props.toggleEditMode()}
-					/>
-				}
+						: <UserPreview
+							user={props.user}
+							me={props.me}
+							onEditButtonClick={() => props.toggleEditMode()}
+						/>
+					}
+				</div>
+			</div>
+
+			<div className="row">
+				<div className="col-sm-8 offset-sm-2">
+					<Navbar basePath={`/@${props.user.username}`} />
+				</div>
 			</div>
 		</div>
-  </div>
-</Paper>;
+	</Paper>
+
+	<StoriesLists basePath={`/@${props.user.username}`} user={props.user} />
+</div>;
 
 export default compose(
 	connect(

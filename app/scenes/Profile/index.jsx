@@ -28,7 +28,12 @@ const Profile = (props: ProfileProps) => {
 			<Route
 				exact
 				path={props.match.path}
-				render={() => <UserDetails user={props.user} />}
+				render={renderProps => <UserDetails {...renderProps} user={props.user} />}
+			/>
+
+			<Route
+				path={`${props.match.path}/has-recommends`}
+				render={renderProps => <UserDetails {...renderProps} user={props.user} />}
 			/>
 
 			<Route path={`${props.match.path}/:publicationId`} component={Publication} />
