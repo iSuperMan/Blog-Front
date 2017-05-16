@@ -1,7 +1,7 @@
 import keyMirror from 'keymirror';
 import { CALL_API, getJSON } from 'redux-api-middleware';
 import { normalize } from 'normalizr';
-import { userSchema } from '../../entities/user';
+import { userSchema, arrayOfUserSchemas } from '../../entities/user';
 import endpoints from '../endpoints';
 import { token } from '../../helpers';
 
@@ -21,9 +21,79 @@ export const types = keyMirror({
 	UPDATE_USER_REQUEST: null,
 	UPDATE_USER_SUCCESS: null,
 	UPDATE_USER_FAILURE: null,
+
+	FOLLOW_TO_USER_REQUEST: null,
+	FOLLOW_TO_USER_SUCCESS: null,
+	FOLLOW_TO_USER_FAILURE: null,
+
+	UNFOLLOW_TO_USER_REQUEST: null,
+	UNFOLLOW_TO_USER_SUCCESS: null,
+	UNFOLLOW_TO_USER_FAILURE: null,
 });
 
 export const actions = {
+	followToUser: userId => ({
+		[CALL_API]: {
+			endpoint: endpoints.FOLLOW_TO_USER_API.replace(':userId', userId),
+			method: 'GET',
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+			},
+
+			types: [
+				types.FOLLOW_TO_USER_REQUEST,
+
+				{
+					type: types.FOLLOW_TO_USER_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.users
+								? normalize(response.users, arrayOfUserSchemas)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.FOLLOW_TO_USER_FAILURE,
+			],
+		},
+	}),
+
+	unfollowToUser: userId => ({
+		[CALL_API]: {
+			endpoint: endpoints.UNFOLLOW_TO_USER_API.replace(':userId', userId),
+			method: 'GET',
+
+			headers: {
+				Authorization: `Bearer ${token.get()}`,
+			},
+
+			types: [
+				types.UNFOLLOW_TO_USER_REQUEST,
+
+				{
+					type: types.UNFOLLOW_TO_USER_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.users
+								? normalize(response.users, arrayOfUserSchemas)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.UNFOLLOW_TO_USER_FAILURE,
+			],
+		},
+	}),
+
 	updateUser: ({ userId, data }) => ({
 		[CALL_API]: {
 			endpoint: endpoints.USER_API.replace(':userId', userId),

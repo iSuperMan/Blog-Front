@@ -11,6 +11,7 @@ import { actions as UIActions } from '../../../../../../services/ui';
 import { selectors as authSelectors } from '../../../../../../services/auth';
 import { users } from '../../../../../../services/api';
 import type { User } from '../../../../../../services/entities/user';
+import { actions as entryDialogActions } from '../../../../../../containers/EntryDialog';
 import * as selectors from '../../selectors';
 import * as actions from '../../actions';
 
@@ -20,6 +21,9 @@ type DetailsProps = {
 	editMode: boolean,
 	toggleEditMode: () => void,
 	onEditFormSubmit: () => void,
+	openEntryDialog: () => void,
+	followToUser: (userId: string) => void,
+	unfollowToUser: (userId: string) => void,
 };
 
 const Details = (props: DetailsProps) => <div>
@@ -38,6 +42,9 @@ const Details = (props: DetailsProps) => <div>
 							user={props.user}
 							me={props.me}
 							onEditButtonClick={() => props.toggleEditMode()}
+							openEntryDialog={props.openEntryDialog}
+							followToUser={props.followToUser}
+							unfollowToUser={props.unfollowToUser}
 						/>
 					}
 				</div>
@@ -66,6 +73,9 @@ export default compose(
 			hideHeaderShadow: UIActions.hideHeaderShadow,
 			showHeaderShadow: UIActions.showHeaderShadow,
 			updateUser: users.actions.updateUser,
+			followToUser: users.actions.followToUser,
+			unfollowToUser: users.actions.unfollowToUser,
+			openEntryDialog: entryDialogActions.openEntryDialog,
 		},
 	),
 

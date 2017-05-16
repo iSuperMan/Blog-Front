@@ -12,43 +12,65 @@ type UserPreviewProps = {
   user: User,
 	me: User | null,
 	onEditButtonClick: () => void,
+	openEntryDialog: () => void,
+	followToUser: (userId: string) => void,
+	unfollowToUser: (userId: string) => void,
 };
 
 const UserPreview = ({
   user,
   me,
 	onEditButtonClick,
-}: UserPreviewProps) => <div className={styles.userPreview}>
-  <div className="row">
-    <div className="col-sm-9">
-      <x-main-info>
-        <x-title>{user.fullName}</x-title>
-        <x-description>{user.bio}</x-description>
-      </x-main-info>
+	openEntryDialog,
+	followToUser,
+	unfollowToUser,
+}: UserPreviewProps) => {
+	let actionButton = (<RaisedButton
+    primary
+    label="Follow"
+    onTouchTap={() => openEntryDialog()}
+	/>);
 
-      <UserStatistic followersAmount={29} followingAmount={938} />
+	if (me) {
+		if (me._id === user._id) {
+			actionButton = (<FlatButton
+				primary
+        onTouchTap={onEditButtonClick}
+        label="Edit"
+        style={{ borderColor: '#00ACC1', borderWidth: 1, borderStyle: 'solid' }}
+			/>);
+		} else if (user.followers.indexOf(me._id) !== -1) {
+			actionButton = <RaisedButton primary label="Unfollow" onTouchTap={() => unfollowToUser(user._id)} />;
+		} else {
+			actionButton = <RaisedButton primary label="Follow" onTouchTap={() => followToUser(user._id)} />;
+		}
+	}
 
-      <x-user-actions>
-        {
-          me && me._id === user._id
-            ? <FlatButton
-								primary
-								onTouchTap={onEditButtonClick}
-                label="Edit"
-                style={{ borderColor: '#00ACC1', borderWidth: 1, borderStyle: 'solid' }}
-            />
+	return (<div className={styles.userPreview}>
+    <div className="row">
+      <div className="col-sm-9">
+        <x-main-info>
+          <x-title>{user.fullName}</x-title>
+          <x-description>{user.bio}</x-description>
+        </x-main-info>
 
-            : <RaisedButton primary label="Follow" />
-        }
-      </x-user-actions>
+        <UserStatistic
+          followersAmount={user.followers.length}
+          followingAmount={user.followings.length}
+        />
+
+        <x-user-actions>
+          {actionButton}
+        </x-user-actions>
+      </div>
+
+      <div className="col-sm-3">
+        <x-avatar>
+          <Avatar src={_.get(user, 'avatar.path')} size={130} />
+        </x-avatar>
+      </div>
     </div>
-
-    <div className="col-sm-3">
-      <x-avatar>
-        <Avatar src={_.get(user, 'avatar.path')} size={130} />
-      </x-avatar>
-    </div>
-  </div>
-</div>;
+  </div>);
+};
 
 export default UserPreview;
