@@ -9,6 +9,7 @@ import AuthenticatedComponent from '../AuthenticatedComponent';
 import StoryEditor from '../../scenes/StoryEditor';
 import Profile from '../../scenes/Profile';
 import Stories from '../../scenes/Stories';
+import Home from '../../scenes/Home';
 import { auth as authAPI } from '../../services/api';
 import { actions as authActions, selectors as authSelectors } from '../../services/auth';
 import { token } from '../../services/helpers';
@@ -25,11 +26,11 @@ const App = (props: AppProps) => {
 		return (
 			<Layout>
 				<Switch>
-					<Route exact path="/" render={() => <div>Home</div>} />
 					<Route exact path="/new-story" component={AuthenticatedStoryEditor} />
 					<Route path="/p/:storyId" component={AuthenticatedStoryEditor} />
 					<Route path="/me/stories" component={AuthenticatedStories} />
 					<Route path="/@:username" component={Profile} />
+					<Route path="/" component={Home} />
 				</Switch>
 
 				<EntryDialog />

@@ -35,6 +35,10 @@ export const types = keyMirror({
 	RECOMMENDS_STORIES_BY_USER_SUCCESS: null,
 	RECOMMENDS_STORIES_BY_USER_FAILURE: null,
 
+	LATESTS_STORIES_REQUEST: null,
+	LATESTS_STORIES_SUCCESS: null,
+	LATESTS_STORIES_FAILURE: null,
+
 	DRAFT_STORIES_BY_USER_REQUEST: null,
 	DRAFT_STORIES_BY_USER_SUCCESS: null,
 	DRAFT_STORIES_BY_USER_FAILURE: null,
@@ -72,6 +76,33 @@ export const actions = {
 				},
 
 				types.PUBLISHED_STORIES_BY_USER_FAILURE,
+			],
+		},
+	}),
+
+	getLatestsStories: () => ({
+		[CALL_API]: {
+			endpoint: endpoints.LATESTS_STORIES_API,
+			method: 'GET',
+
+			types: [
+				types.LATESTS_STORIES_REQUEST,
+
+				{
+					type: types.LATESTS_STORIES_SUCCESS,
+
+					payload: (action, state, res) => getJSON(res).then(
+						/* eslint-disable arrow-body-style */
+						({ response }) => {
+							return response.stories
+								? normalize(response.stories, arrayOfStorySchemas)
+								: Promise.reject();
+						},
+						/* eslint-enable arrow-body-style */
+					),
+				},
+
+				types.LATESTS_STORIES_FAILURE,
 			],
 		},
 	}),

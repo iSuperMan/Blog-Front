@@ -8,6 +8,7 @@ import { reducers as ui } from './services/ui';
 import { reducers as profileScene } from './scenes/Profile';
 import { reducers as storyEditorScene } from './scenes/StoryEditor';
 import { reducers as storiesScene } from './scenes/Stories';
+import { reducers as homeScene } from './scenes/Home';
 
 const reducers = combineReducers({
 	auth,
@@ -18,6 +19,7 @@ const reducers = combineReducers({
 	ui,
 	profileScene,
 	storiesScene,
+	homeScene,
 	storyEditorScene,
 });
 

@@ -5,3 +5,4 @@ export const getUI = state => state.ui;
 export const getProfileScene = state => state.profileScene;
 export const getStoryEditorScene = state => state.storyEditorScene;
 export const getStoriesScene = state => state.storiesScene;
+export const getHomeScene = state => state.homeScene;

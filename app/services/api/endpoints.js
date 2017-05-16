@@ -19,5 +19,6 @@ export default {
 	PUBLISH_STORY_API: '/api/stories/:storyId/publish',
 	PUBLISHED_STORIES_BY_USER_API: '/api/stories/by-user/:userId',
 	RECOMMENDS_STORIES_BY_USER_API: '/api/stories/recommends/:userId',
+	LATESTS_STORIES_API: '/api/stories/latests',
 	DRAFT_STORIES_BY_USER_API: '/api/stories/by-user/:userId/drafts',
 };
