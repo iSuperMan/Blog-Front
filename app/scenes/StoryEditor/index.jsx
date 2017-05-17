@@ -171,6 +171,8 @@ export default compose(
 
 	lifecycle({
 		componentDidMount() {
+			this.props.initializeForm('story-form', {});
+			this.props.resetStoryEditor();
 			const storyId = _.get(this.props, 'match.params.storyId');
 
 			if (storyId) {
