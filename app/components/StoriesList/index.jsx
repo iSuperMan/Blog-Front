@@ -94,7 +94,7 @@ const StoriesList = (props: StoriesListTypes) => {
 
 								<FlatButton
 									style={{ top: 2 }}
-									label="Читать"
+									label="Read"
 									onTouchTap={() => props.history.push(`/@${story._author.username}/${story._id}`)}
 								/>
 							</div>

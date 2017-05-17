@@ -22,7 +22,7 @@ const Navbar = (props: {
 }) => <Paper>
   <List>
     <ListItem
-      primaryText="Последние"
+      primaryText="Newest"
       leftIcon={<AssessmentIcon />}
       onTouchTap={() => props.history.push('/')}
       style={props.location.pathname === '/' ? activeStyle : {}}
@@ -31,7 +31,7 @@ const Navbar = (props: {
     <Divider />
 
     <ListItem
-      primaryText="Популярные"
+      primaryText="Popular"
       leftIcon={<StarsIcon />}
       onTouchTap={() => props.history.push('/favorites')}
 			style={props.location.pathname === '/favorites' ? activeStyle : {}}
